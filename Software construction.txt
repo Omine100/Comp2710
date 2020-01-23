@@ -1,0 +1,56 @@
+ssh mrb0094@gate.eng.auburn.edu
+
+ls -la | grep mrb0094
+	drwx------+
+	- d: direction
+	- r: read
+	- w: write
+	- x: execute
+	
+	- The next three dashes are rwx again for any user to be able to do those things respectively
+	- The last three dashes are for anyone
+
+Clear: clear
+
+Go backwards: cd ../
+
+Go to your folder in the server: cd mrb0094
+
+See files in directory: ls
+
+New files:
+	- vi 'filename'.cpp
+	- Type 'i' for insert
+	- Press 'esc' for leaving command	
+	- Type ':wq' for saving and quiting
+
+Updating files:
+	- vi 'filename'.cpp
+
+Downloading/uploading files:
+	- scp [location of files][destination]
+		ex: scp mrb0094@scp.eng.auburn.edu/home/u2/mrb0094/helloworld.cpp 
+	- Downloads
+		ex: scp mrb0094@scp.eng.auburn.edu:/home/u2/mrb0094/helloworld.cpp /mnt/c/users/matth/Downloads/
+	- Uploads
+		ex: scp /mnt/c/users/matth/../Quiz1_mrb0094.tar.gz mrb0094@scp.eng.auburn.edu:/home/u2/mrb0094/Quiz1
+
+Deleting files:
+	- rm a.out
+
+Compiling files:
+	- g++ 'filename'.cpp
+	 ls
+	 ./a.out
+	- g++ 'filename'.cpp -o test
+	 ls
+	 ./test
+	- g++ -std=c++11 'filename'.cpp
+
+Compress multiple files into single folder:
+	- tar -zcvf 'name'.tar.gz/folder/directory
+		ex: tar -zcvf Quiz1_mrb0094.tar.gz/home/u2/mrb0094/COMP2710/Quiz1
+	- Steps
+	 Go to folder
+	 tar -zcvf Quiz1_mrb0094.tar.gz Quiz1
+	 Done
