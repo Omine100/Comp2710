@@ -13,60 +13,72 @@
 #include <ctime>
 using namespace std;
 
+//WINNING VARIABLES
+int aaronWins1 = 0, bobWins = 0, charlieWins = 0, aaronWins2 = 0;
+
+//MAIN
 int main() {
 	//DECLARATION FOR CONTINUE
-	void continueText();
+	void Press_any_key();
 
 	//VARIABLE INITIALIZATION
-	bool A_alive, B_alive, C_alive;
+	const int TOTAL_RUNS = 10000;
 
-	//UNIT DESCRIPTIONS
+	//TEST PROTOTYPES
+	void test_at_least_two_alive(void);
+	void test_Aaron_shoots1(void);
+	void test_Bob_shoots(void);
+	void test_Charlie_shoots(void);
+	void test_Aaron_shoots2(void);
+	void duel_strat1(void);
+	void duel_strat2(void);
+
+	//UNIT DESCRIPTIONS AND TESTING
 	cout << "*** Welcome to Matthew's Duel Simulator ***";
-	cout << "\nUnit Testing 1: Function - at_least_two_alive()"
-	     << "\n\tCase 1: Aaron alive, Bob alive, Charlie alive\n\tCase passed ..."
-	     << "\n\tCase 2: Aaron dead, Bob alive, Charlie alive\n\tCase passed ..."
-	     << "\n\tCase 3: Aaron alive, Bob dead, Charlie alive\n\tCase passed ..."
-	     << "\n\tCase 4: Aaron alive, Bob alive, Charlie dead\n\tCase passed ..."
-	     << "\n\tCase 5: Aaron dead, Bob dead, Charlie alive\n\tCase passed ..."
-	     << "\n\tCase 6: Aaron dead, Bob alive, Charlie dead\n\tCase passed ..."
-	     << "\n\tCase 7: Aaron alive, Bob dead, Charlie dead\n\tCase passed ..."
-	     << "\n\tCase 8: Aaron dead, Bob dead, Charlie dead\n\tCase passed ...";
-	continueText();
-
-	cout << "Unit Testing 2: Function Aaron_shoots1(Bob_alive, Charlie_alive)"
-	     << "\n\tCase 1: Bob alive, Charlie alive\n\t\tAaron is shooting at Charlie"
-	     << "\n\tCase 2: Bob dead, Charlie alive\n\t\tAaron is shooting at Charlie"
-	     << "\n\tCase 3: Bob alive, Charlie dead\n\t\tAaron is shooting at Bob";
-	continueText();
-
-	cout << "Unit Testing 3: Function Bob_shoots(Aaron_alive, Charlie_alive)"
-	     << "\n\tCase 1: Aaron alive, Charlie alive\n\t\tBob is shooting at Charlie"
-	     << "\n\tCase 2: Aaron dead, Charlie alive\n\t\tBob is shooting at Charlie"
-	     << "\n\tCase 3: Aaron alive, Charlie dead\n\t\tBob is shooting at Aaron";
-	continueText();
-
-	cout << "Unit Testing 4: Function Charlie_shoots(Aaron_alive, Bob_alive)"
-	     << "\n\tCase 1: Aaron alive, Bob alive\n\t\tCharlie is shooting at Bob"
-	     << "\n\tCase 2: Aaron dead, Bob alive\n\t\tCharlie is shooting at Bob"
-	     << "\n\tCase 3: Aaron alive, Bob dead\n\t\tCharlie is shooting at Aaron";
-	continueText();
-
-	cout << "Unit Testing 5: Function Aaron_shoots2(Bob_alive, Charlie_alive)"
-	     << "\n\tCase 1: Bob alive, Charlie alive\n\t\tAaron intentionally misses his first shot"
-	     <<	"\n\tCase 2: Bob dead, Charlie alive\n\t\tAaron is shooting at Charlie"
-	     << "\n\tCase 3: Bob alive, Charlie dead\n\t\tAaron is shooting at Bob";
-	continueText();
+	srand(time(0));
+	test_at_least_two_alive();
+	Press_any_key();
+	test_Aaron_shoots1();
+	Press_any_key();
+	test_Bob_shoots();
+	Press_any_key();
+	test_Charlie_shoots();
+	Press_any_key();
+	test_Aaron_shoots2();
+	Press_any_key();
 
 	//STRATEGY 1 TESTS
 	cout << "Ready to test strategy 1 (run 10000 times):";
-	continueText();
+	Press_any_key();
+	for (int i = 0; i < TOTAL_RUNS; i++) {
+		duel_strat1();
+	}
+	cout << "Aaron won " << aaronWins1 << "/10000 duels or " << static_cast<double>(aaronWins1) / TOTAL_RUNS * 100 << "%\n";
+	cout << "Bob won " << bobWins << "/10000 duels or " << static_cast<double>(bobWins) / TOTAL_RUNS * 100 << "%\n";
+	cout << "Charlie won " << charlieWins << "/10000 duels or " << static_cast<double>(charlieWins) / TOTAL_RUNS * 100 << "%\n";
+
+	//STRATEGY 2 TESTS
+	cout << "Ready to test strategy 2 (run 10000 times):";
+	Press_any_key();
+	bobWins = 0, charlieWins = 0, aaronWins2 = 0;
+	for (int i = 0; i < TOTAL_RUNS; i++) {
+		duel_strat2();
+	}
+	cout << "Aaron won " << aaronWins2 << "/10000 duels or " << static_cast<double>(aaronWins2) / TOTAL_RUNS * 100 << "%\n";
+	cout << "Bob won " << bobWins << "/10000 duels or " << static_cast<double>(bobWins) / TOTAL_RUNS * 100 << "%\n";
+	cout << "Charlie won " << charlieWins << "/10000 duels or " << static_cast<double>(charlieWins) / TOTAL_RUNS * 100 << "%\n";
+
+	//STRATEGY COMPARISON
+	aaronWins2 > aaronWins1 ? cout << "Strategy 2 is better than strategy 1" : cout << "Strategy 1 is better than strategy 2";
 }
 
-void continueText() {
+//CONTINUE TEXT
+void Press_any_key() {
 	cout << "\nPress Enter to continue...";
 	cin.ignore().get(); //Pause command for Linux Terminal
 }
 
+//IMPLEMENTATION OF FUNCTIONS
 bool at_least_two_alive(bool A_alive, bool B_alive, bool C_alive) {
 	if ((A_alive && B_alive) || (A_alive && C_alive) || (B_alive && C_alive)) {
 		return true;
@@ -75,17 +87,245 @@ bool at_least_two_alive(bool A_alive, bool B_alive, bool C_alive) {
 }	
 
 void Aaron_shoots1(bool& B_alive, bool& C_alive) {
+	int probability_aaron = 33;
+	int result = rand()%100;
 
+	if (result <= probability_aaron) {
+		C_alive ? C_alive = false : B_alive = false;
+	}
 }
 
 void Bob_shoots(bool& A_alive, bool& C_alive) {
+	int probability_bob = 50;
+	int result = rand()%100;
 
+	if (result <= probability_bob) {
+		C_alive ? C_alive = false : A_alive = false;
+	}
 }
 
 void Charlie_shoots(bool& A_alive, bool& B_alive) {
-
+	B_alive ? B_alive = false : A_alive = false;
 }
 
 void Aaron_shoots2(bool& B_alive, bool& C_alive) {
+	int probability_aaron = 33;
+	int result = rand()%100;
+
+	if ((!B_alive || !C_alive) && (result <= 33)) {
+		C_alive ? C_alive = false : B_alive = false;
+	}
+}
+
+//DUEL STRATEGIES
+void duel_strat1(void) {
+	bool a_alive = true, b_alive = true, c_alive = true;
+
+	while (at_least_two_alive(a_alive, b_alive, c_alive)) {
+		if (a_alive) {
+			Aaron_shoots1(b_alive, c_alive);
+		} else if (b_alive) {
+			Bob_shoots(a_alive, c_alive);
+		} else {
+			Charlie_shoots(a_alive, b_alive);
+		}
+	}
+
+	if (a_alive) {
+		aaronWins1++;
+	} else if (b_alive) {
+		bobWins++;
+	} else {
+		charlieWins++;
+	}
+}
+
+void duel_strat2(void) {
+	bool a_alive = true, b_alive = true, c_alive = true;
+
+	while (at_least_two_alive(a_alive, b_alive, c_alive)) {
+		if (a_alive) {
+			Aaron_shoots2(b_alive, c_alive);
+		} else if (b_alive) {
+			Bob_shoots(a_alive, c_alive);
+		} else {
+			Charlie_shoots(a_alive, b_alive);
+		}
+	}
+
+	if (a_alive) {
+		aaronWins2++;
+	} else if (b_alive) {
+		bobWins++;
+	} else {
+		charlieWins++;
+	}
+}
+
+//TESTING
+void test_at_least_two_alive(void) {
+	cout << "\nUnit Testing 1: Function - at_least_two_alive()";
 	
+	cout << "\n\tCase 1: Aaron alive, Bob alive, Charlie alive\n";
+	assert(true == at_least_two_alive(true, true, true));
+	cout << "\tCase passed ...\n";
+
+	cout << "\n\tCase 2: Aaron dead, Bob alive, Charlie alive\n";
+	assert(true == at_least_two_alive(false, true, true));
+	cout << "\tCase passed ...\n";
+
+	cout << "\n\tCase 3: Aaron alive, Bob dead, Charlie alive\n";
+	assert(true == at_least_two_alive(true, false, true));
+	cout << "\tCase passed ...\n";
+
+	cout << "\n\tCase 4: Aaron alive, Bob alive, Charlie dead\n";
+	assert(true == at_least_two_alive(true, true, false));
+	cout << "\tCase passed ...\n";
+
+	cout << "\n\tCase 5: Aaron dead, Bob dead, Charlie alive\n";
+	assert(true == at_least_two_alive(false, false, true));
+	cout << "\tCase passed ...\n";
+
+	cout << "\n\tCase 6: Aaron dead, Bob alive, Charlie dead\n";
+	assert(true == at_least_two_alive(false, true, false));
+	cout << "\tCase passed ...\n";
+	
+	cout << "\n\tCase 7: Aaron alive, Bob dead, Charlie dead\n";
+	assert(true == at_least_two_alive(true, false, false));
+	cout << "\tCase passed ...\n";
+
+	cout << "\n\tCase 8: Aaron dead, Bob dead, Charlie dead\n";
+	assert(true == at_least_two_alive(false, false, false));
+	cout << "\tCase passed ...\n";
+}
+
+void test_Aaron_shoots1(void) {
+	cout << "Unit Testing 2: Function Aaron_shoots1(Bob_alive, Charlie_alive)";
+
+	bool B_alive = true, C_alive = true;
+
+	cout << "\n\tCase 1: Bob alive, Charlie alive\n\t\tAaron is shooting at Charlie";
+	Aaron_shoots1(B_alive, C_alive);
+	assert(true == B_alive);
+	if (C_alive) {
+		cout << "\t\tAaron misses.\n";
+	}
+	else {
+		cout << "\t\tCharlie is dead.\n";
+	}
+
+	cout << "\n\tCase 2: Bob dead, Charlie alive\n\t\tAaron is shooting at Charlie";
+	B_alive = false, C_alive = true;
+	Aaron_shoots1(B_alive, C_alive);
+	assert(false == B_alive);
+	if (C_alive) {
+		cout << "\t\tAaron misses.\n";
+	}
+	else {
+		cout << "\t\tCharlie is dead.\n";
+	}
+
+	cout << "\n\tCase 3: Bob alive, Charlie dead\n\t\tAaron is shooting at Bob";
+	B_alive = true, C_alive = false;
+	Aaron_shoots1(B_alive, C_alive);
+	assert(false == C_alive);
+	if (B_alive) {
+		cout << "\t\tAaron misses.\n";
+	}
+	else {
+		cout << "\t\tBob is dead.\n";
+	}
+}
+
+void test_Bob_shoots(void) {
+	cout << "Unit Testing 3: Function Bob_shoots(Aaron_alive, Charlie_alive)";
+
+	bool A_alive = true, C_alive = true;
+
+	cout << "\n\tCase 1: Aaron alive, Charlie alive\n\t\tBob is shooting at Charlie";
+	Bob_shoots(A_alive, C_alive);
+	assert(true == A_alive);
+	if (C_alive) {
+		cout << "\t\tBob missed\n";
+	} else {
+		cout << "\t\tCharlie is dead";
+	}
+
+	cout << "\n\t\n\tCase 2: Aaron dead, Charlie alive\n\t\tBob is shooting at Charlie";
+	A_alive = false, C_alive = true;
+	Bob_shoots(A_alive, C_alive);
+	assert(false == A_alive);
+	if (C_alive) {
+		cout << "\t\tBob missed\n";
+	} else {
+		cout << "\t\tCharlie is dead";
+	}
+
+	cout << "\n\tCase 3: Aaron alive, Charlie dead\n\t\tBob is shooting at Aaron";
+	A_alive = true, C_alive = false;
+	Bob_shoots(A_alive, C_alive);
+	assert(false == A_alive);
+	if (C_alive) {
+		cout << "\t\tBob missed\n";
+	} else {
+		cout << "\t\tCharlie is dead";
+	}
+}
+
+void test_Charlie_shoots(void) {
+	cout << "Unit Testing 4: Function Charlie_shoots(Aaron_alive, Bob_alive)";
+
+	bool A_alive = true, B_alive = true;
+
+	cout << "\n\tCase 1: Aaron alive, Bob alive\n\t\tCharlie is shooting at Bob";
+	Bob_shoots(A_alive, B_alive);
+	assert(true == A_alive);
+	assert(false == B_alive);
+	cout << "\t\tBob is dead\n";
+
+	cout << "\n\tCase 2: Aaron dead, Bob alive\n\t\tCharlie is shooting at Bob";
+	A_alive = false, B_alive = true;
+	Bob_shoots(A_alive, B_alive);
+	assert(false == A_alive);
+	assert(false == B_alive);
+	cout << "\t\tBob is dead\n";
+
+	cout << "\n\tCase 3: Aaron alive, Bob dead\n\t\tCharlie is shooting at Aaron";
+	A_alive = true, B_alive = false;
+	Bob_shoots(A_alive, B_alive);
+	assert(false == A_alive);
+	assert(false == B_alive);
+	cout << "\t\tAaron is dead\n";
+}
+
+void test_Aaron_shoots2(void) {
+	cout << "Unit Testing 5: Function Aaron_shoots2(Bob_alive, Charlie_alive)";
+
+	bool B_alive = true, C_alive = true;
+
+	cout << "\n\tCase 1: Bob alive, Charlie alive\n\t\tAaron intentionally misses his first shot";
+	Aaron_shoots2(B_alive, C_alive);
+	assert(true == B_alive);
+	assert(true == C_alive);
+	cout << "\t\tBoth Bob and Charlie are alive\n";
+
+	cout << "\n\tCase 2: Bob dead, Charlie alive\n\t\tAaron is shooting at Charlie";
+	B_alive = false, C_alive = true;
+	Aaron_shoots2(B_alive, C_alive);
+	assert(false == B_alive);
+	if (C_alive) {
+		cout << "\t\tAaron misses\n";
+	} else {
+		cout << "\t\tCharlie is dead\n";
+	}
+
+	cout << "\n\tCase 3: Bob alive, Charlie dead\n\t\tAaron is shooting at Bob";
+	B_alive = true, C_alive = false;
+	Aaron_shoots2(B_alive, C_alive);
+	assert(false == C_alive);
+	if (B_alive) {
+		cout << "\t\tAaron misses\n";
+	} else {
+		cout << "\t\tBob is dead\n";
+	}
 }
