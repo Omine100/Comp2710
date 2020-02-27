@@ -19,11 +19,16 @@ bool check_file(string);
 //FUNCTION DECLARATION: read_file DECLARATION
 vector<int> read_file(string, vector<int>);
 
+//FUNCTION DECLARATION: read_vector DECLARATION
+vector<int> read_vector(vector<int>);
+
 //FUNCTION DECLARATION: sort_file DECLARATION
+vector<int> sort_file(vector<int>);
 
 //FUNCTION DECLARATION: write_file DECLARATION
+vector<int> write_file(vector<int>);
 
-//METHOD: START OF THE PROJECT 
+//METHOD: START OF THE PROJECT
 int main() {
     //VARIABLE DECLARATION
     string firstFile;
@@ -39,6 +44,8 @@ int main() {
     if (check_file(firstFile)) {
         cout << "\nFile exists.";
         read_file(firstFile, firstNumbers);
+        sort_file(firstNumbers);
+        read_vector(firstNumbers);
     } else {
         cout << "\nFile does not exist.";
     }
@@ -61,10 +68,35 @@ vector<int> read_file(string fileName, vector<int> numbers) {
     }
     in.close();
 
-    cout << "Numbers:\n";
+    cout << "\nNumbers:\n";
     for (int i = 0; i < numbers.size(); i++) {
         cout << numbers[i] << "\n";
     }
 
     return numbers;
 }
+
+//METHOD: READS A GIVEN VECTOR
+vector<int> read_vector(vector<int> numbers) {
+    cout << "\nSorted numbers:\n";
+    for (int i = 0; i < numbers.size(); i++) {
+        cout << numbers[i] << "\n";
+    }
+}
+
+//METHOD: SORTS A GIVEN FILE AND RETURNS A VECTOR
+vector<int> sort_file(vector<int> numbers) {
+    int temp;
+
+    for(int i = 0; i < numbers.size(); i++) {
+        if(numbers[i] > numbers[i + 1]) {
+            temp = numbers[i];
+            numbers[i] = numbers[i + 1];
+            numbers[i + 1] = temp;
+        }
+    }
+
+    return numbers;
+}
+
+//METHOD: COMBINES TWO GIVEN VECTORS AND RETURNS ONE
