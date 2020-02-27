@@ -27,7 +27,6 @@ int main() {
     vector<int> firstNumbers;
     vector<int> secondNumbers;
     
-
     cout << "*** Welcome to Matthew's sorting program ***\n"
          << "Enter the first input file name: ";
     getline(cin, firstFile);
