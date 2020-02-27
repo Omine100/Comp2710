@@ -36,13 +36,12 @@ int main() {
     vector<int> firstNumbers;
     vector<int> secondNumbers;
     
-    cout << "*** Welcome to Matthew's sorting program ***\n"
-         << "Enter the first input file name: ";
+    cout << "*** Welcome to Matthew's sorting program ***\n";
+    
+    cout << "Enter the first input file name: ";
     getline(cin, firstFile);
-    cout << "This is the fileName: " << firstFile;
     
     if (check_file(firstFile)) {
-        cout << "\nFile exists.";
         read_file(firstFile, firstNumbers);
         sort_file(firstNumbers);
         read_vector(firstNumbers);
@@ -68,7 +67,7 @@ vector<int> read_file(string fileName, vector<int> numbers) {
     }
     in.close();
 
-    cout << "\nNumbers:\n";
+    cout << "The list of " << numbers.size() << " numbers in file " << fileName << " is:\n";
     for (int i = 0; i < numbers.size(); i++) {
         cout << numbers[i] << "\n";
     }
