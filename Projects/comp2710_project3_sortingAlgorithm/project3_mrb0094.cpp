@@ -37,14 +37,12 @@ int main() {
     vector<int> secondNumbers;
     
     cout << "*** Welcome to Matthew's sorting program ***\n";
-    
+
     cout << "Enter the first input file name: ";
     getline(cin, firstFile);
     
     if (check_file(firstFile)) {
-        read_file(firstFile, firstNumbers);
-        sort_file(firstNumbers);
-        read_vector(firstNumbers);
+        read_vector(sort_file(read_file(firstFile, firstNumbers)));
     } else {
         cout << "\nFile does not exist.";
     }
@@ -87,7 +85,7 @@ void read_vector(vector<int> numbers) {
 vector<int> sort_file(vector<int> numbers) {
     int temp;
 
-    for(int i = 0; i < numbers.size(); i++) {
+    for(int i = 0; i < numbers.size() + 1; i++) {
         if(numbers[i] > numbers[i + 1]) {
             temp = numbers[i];
             numbers[i] = numbers[i + 1];
