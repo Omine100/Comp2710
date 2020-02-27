@@ -19,6 +19,10 @@ bool check_file(string);
 //FUNCTION DECLARATION: read_file DECLARATION
 vector<int> read_file(string, vector<int>);
 
+//FUNCTION DECLARATION: sort_file DECLARATION
+
+//FUNCTION DECLARATION: write_file DECLARATION
+
 //METHOD: START OF THE PROJECT 
 int main() {
     //VARIABLE DECLARATION
@@ -32,9 +36,22 @@ int main() {
     getline(cin, firstFile);
     cout << "This is the fileName: " << firstFile;
     
-    read_file(firstFile, firstNumbers);
+    if (check_file(firstFile)) {
+        cout << "\nFile exists.";
+        read_file(firstFile, firstNumbers);
+    } else {
+        cout << "\nFile does not exist.";
+    }
 }
 
+//METHOD: CHECKS A GIVEN FILE TO SEE IF IT EXISTS
+bool check_file(string fileName) {
+    std::ifstream exists(fileName);
+    
+    return !exists ? false : true;
+}
+
+//METHOD: READS A GIVEN FILE AND RETURNS AN UNSORTED VECTOR
 vector<int> read_file(string fileName, vector<int> numbers) {
     int currentNumber;
 
