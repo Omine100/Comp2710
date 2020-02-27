@@ -10,37 +10,45 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 //FUNCTION DECLARATION: check_file DECLARATION
 bool check_file(string);
 
 //FUNCTION DECLARATION: read_file DECLARATION
-int read_file(int inputArray[], ifstream& inStream);
+vector<int> read_file(string, vector<int>);
 
 //METHOD: START OF THE PROJECT 
 int main() {
     //VARIABLE DECLARATION
     string firstFile;
     string secondFile;
-    int firstArray[100];
-    int firstArray_size;
-    int secondArray[100];
-    int secondArray_size;
+    vector<int> firstNumbers;
+    vector<int> secondNumbers;
+    
 
     cout << "*** Welcome to Matthew's sorting program ***\n"
          << "Enter the first input file name: ";
     getline(cin, firstFile);
     cout << "This is the fileName: " << firstFile;
+    
+    read_file(firstFile, firstNumbers);
 }
 
-int read_file(string fileName, int array[]) {
-    string line;
-    ifstream file (fileName);
+vector<int> read_file(string fileName, vector<int> numbers) {
+    int currentNumber;
 
-    if (file.is_open()) {
-        while (getline(file, line)) {
-            array[1] == line.toInt();
-        }
+    ifstream in(fileName, ios::in);
+    while (in >> currentNumber) {
+        numbers.push_back(currentNumber);
     }
+    in.close();
+
+    cout << "Numbers:\n";
+    for (int i = 0; i < numbers.size(); i++) {
+        cout << numbers[i] << "\n";
+    }
+
+    return numbers;
 }
