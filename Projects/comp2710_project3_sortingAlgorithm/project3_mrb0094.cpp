@@ -20,7 +20,7 @@ bool check_file(string);
 vector<int> read_file(string, vector<int>);
 
 //FUNCTION DECLARATION: read_vector DECLARATION
-vector<int> read_vector(vector<int>);
+void read_vector(vector<int>);
 
 //FUNCTION DECLARATION: sort_file DECLARATION
 vector<int> sort_file(vector<int>);
@@ -77,7 +77,7 @@ vector<int> read_file(string fileName, vector<int> numbers) {
 }
 
 //METHOD: READS A GIVEN VECTOR
-vector<int> read_vector(vector<int> numbers) {
+void read_vector(vector<int> numbers) {
     cout << "\nSorted numbers:\n";
     for (int i = 0; i < numbers.size(); i++) {
         cout << numbers[i] << "\n";
