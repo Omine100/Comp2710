@@ -23,29 +23,58 @@ vector<int> read_file(string, vector<int>);
 void read_vector(vector<int>);
 
 //FUNCTION DECLARATION: sort_file DECLARATION
-vector<int> sort_file(vector<int>);
+vector<int> sort_vector(vector<int>);
 
 //FUNCTION DECLARATION: write_file DECLARATION
-vector<int> write_file(vector<int>);
+void write_file(string, vector<int>);
 
 //METHOD: START OF THE PROJECT
 int main() {
     //VARIABLE DECLARATION
     string firstFile;
     string secondFile;
+    string sortedFile;
     vector<int> firstNumbers;
     vector<int> secondNumbers;
+    vector<int> sortedNumbers;
     
-    cout << "*** Welcome to Matthew's sorting program ***\n";
+    //USER: WELCOME
+    cout << "*** Welcome to Matthew's sorting program ***";
 
-    cout << "Enter the first input file name: ";
+    //USER: FIRST FILE MECHANICS
+    cout << "\nEnter the first input file name: ";
     getline(cin, firstFile);
-    
     if (check_file(firstFile)) {
-        read_vector(sort_file(read_file(firstFile, firstNumbers)));
+        firstNumbers = read_file(firstFile, firstNumbers);
+        sort_vector(firstNumbers);
     } else {
         cout << "\nFile does not exist.";
     }
+
+    //USER: SECOND FILE MECHANICS
+    cout << "\nEnter the second input file name: ";
+    getline(cin, secondFile);
+    if (check_file(secondFile)) {
+        secondNumbers = read_file(secondFile, secondNumbers);
+        sort_vector(secondNumbers);
+    } else {
+        cout << "\nFile does not exist.";
+    }
+
+    //USER: THIRD FILE MECHANICS
+    for (int i = 0; i < firstNumbers.size(); i++) {
+        sortedNumbers.push_back(firstNumbers[i]);
+    }
+    for (int i = 0; i < secondNumbers.size(); i++) {
+        sortedNumbers.push_back(secondNumbers[i]);
+    }
+    sortedNumbers = sort_vector(sortedNumbers);
+    read_vector(sortedNumbers);
+    cout << "\nEnter the output file name: ";
+    getline(cin, sortedFile);
+    write_file(sortedFile, sortedNumbers);
+    cout << "*** Please check the new file - " << sortedFile << " ***";
+    cout << "\n*** Goodbye. ***";
 }
 
 //METHOD: CHECKS A GIVEN FILE TO SEE IF IT EXISTS
@@ -75,25 +104,44 @@ vector<int> read_file(string fileName, vector<int> numbers) {
 
 //METHOD: READS A GIVEN VECTOR
 void read_vector(vector<int> numbers) {
-    cout << "\nSorted numbers:\n";
+    cout << "\nThe sorted list of " << numbers.size() << " numbers is: ";
     for (int i = 0; i < numbers.size(); i++) {
-        cout << numbers[i] << "\n";
+        cout << numbers[i] << " ";
     }
 }
 
 //METHOD: SORTS A GIVEN FILE AND RETURNS A VECTOR
-vector<int> sort_file(vector<int> numbers) {
+vector<int> sort_vector(vector<int> numbers) {
+    int min;
     int temp;
 
-    for(int i = 0; i < numbers.size() + 1; i++) {
-        if(numbers[i] > numbers[i + 1]) {
-            temp = numbers[i];
-            numbers[i] = numbers[i + 1];
-            numbers[i + 1] = temp;
-        }
-    }
+	for (int i = 0; i < numbers.size(); i++) {
+		min = i;
+		for (int j = i + 1; j < numbers.size(); j++) {
+			if (numbers[j] < numbers[min]) {
+				min = j;
+			}
+		}
+
+		temp = numbers[min];
+		numbers[min] = numbers[i];
+		numbers[i] = temp;
+	}
 
     return numbers;
 }
 
-//METHOD: COMBINES TWO GIVEN VECTORS AND RETURNS ONE
+void write_file(string fileName, vector<int> numbers) {
+    ofstream outputFile;
+    outputFile.open(fileName);
+    
+    if (outputFile.fail()) {
+        cout << "\nFailed to write to file.";
+    } else {
+        for (int i = 0; i < numbers.size(); i++) {
+            outputFile << numbers[i] << "\n";
+        }
+    }
+
+    outputFile.close();
+}
