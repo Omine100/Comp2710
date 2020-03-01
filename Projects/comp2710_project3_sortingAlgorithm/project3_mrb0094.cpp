@@ -11,13 +11,11 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <sstream>
 using namespace std;
 
-//FUNCTION DECLARATION: check_file DECLARATION
-bool check_file(string);
-
 //FUNCTION DECLARATION: read_file DECLARATION
-vector<int> read_file(string, vector<int>);
+vector<int> read_file(ifstream&, vector<int>, string);
 
 //FUNCTION DECLARATION: read_vector DECLARATION
 void read_vector(vector<int>);
@@ -31,6 +29,8 @@ void write_file(string, vector<int>);
 //METHOD: START OF THE PROJECT
 int main() {
     //VARIABLE DECLARATION
+    bool checkFirstFile;
+    bool checkSecondFile;
     string firstFile;
     string secondFile;
     string sortedFile;
@@ -44,8 +44,12 @@ int main() {
     //USER: FIRST FILE MECHANICS
     cout << "\nEnter the first input file name: ";
     getline(cin, firstFile);
-    if (check_file(firstFile)) {
-        firstNumbers = read_file(firstFile, firstNumbers);
+    std::ifstream ifile;
+    ifile.open((char*)firstFile.c_str());
+    ifile ? checkFirstFile = true : checkFirstFile = false;
+    if (checkFirstFile) {
+        firstNumbers = read_file(ifile, firstNumbers, firstFile);
+        ifile.close();
         sort_vector(firstNumbers);
     } else {
         cout << "\nFile does not exist.";
@@ -54,8 +58,11 @@ int main() {
     //USER: SECOND FILE MECHANICS
     cout << "\nEnter the second input file name: ";
     getline(cin, secondFile);
-    if (check_file(secondFile)) {
-        secondNumbers = read_file(secondFile, secondNumbers);
+    std::ifstream ifile2;
+    ifile2.open((char*)secondFile.c_str());
+    ifile2 ? checkSecondFile = true : checkSecondFile = false;
+    if (checkSecondFile) {
+        secondNumbers = read_file(ifile2, secondNumbers, secondFile);
         sort_vector(secondNumbers);
     } else {
         cout << "\nFile does not exist.";
@@ -77,22 +84,17 @@ int main() {
     cout << "\n*** Goodbye. ***";
 }
 
-//METHOD: CHECKS A GIVEN FILE TO SEE IF IT EXISTS
-bool check_file(string fileName) {
-    std::ifstream exists(fileName);
-    
-    return !exists ? false : true;
-}
-
 //METHOD: READS A GIVEN FILE AND RETURNS AN UNSORTED VECTOR
-vector<int> read_file(string fileName, vector<int> numbers) {
+vector<int> read_file(ifstream& in, vector<int> numbers, string fileName) {
     int currentNumber;
+    std::string str;
 
-    ifstream in(fileName, ios::in);
-    while (in >> currentNumber) {
-        numbers.push_back(currentNumber);
+    while(std::getline(in, str)) {
+        std::istringstream iss (str);
+        int number;
+        iss >> number;
+        numbers.push_back(number);
     }
-    in.close();
 
     cout << "The list of " << numbers.size() << " numbers in file " << fileName << " is:\n";
     for (int i = 0; i < numbers.size(); i++) {
@@ -133,7 +135,7 @@ vector<int> sort_vector(vector<int> numbers) {
 
 void write_file(string fileName, vector<int> numbers) {
     ofstream outputFile;
-    outputFile.open(fileName);
+    outputFile.open((char*)fileName.c_str());
     
     if (outputFile.fail()) {
         cout << "\nFailed to write to file.";
